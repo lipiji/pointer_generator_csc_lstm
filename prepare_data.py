@@ -77,9 +77,9 @@ def load_lines(d_path, f_name, dic, configs, train=False):
     with open(f_path, "r") as f:
         for line in f:
             line = line.strip('\n').strip('\r').lower()
-            fs = line.split("[sep]")
-            if len(fs) == 2:
-                q, r = fs
+            fs = line.split("\t")
+            if len(fs) == 3:
+                q, r, tags = fs
             else:
                 print("ERROR!!")
             xy = get_xy_tuple(q.strip(), r.strip(), dic, configs, train)
@@ -213,7 +213,7 @@ def prepare_data(d_path):
     train_xy_list = load_lines(d_path, "train.txt", all_dic, configs, train=True)
     
     print("validset...")
-    valid_xy_list = load_lines(d_path, "val.txt", all_dic, configs, train=False)
+    valid_xy_list = load_lines(d_path, "dev.txt", all_dic, configs, train=False)
 
     print(len(train_xy_list), len(valid_xy_list))
 
@@ -266,8 +266,7 @@ def prepare_data(d_path):
     pickle.dump(test_xy_list, open(TESTING_PATH + "test.pkl", "wb"), protocol = pickle.HIGHEST_PROTOCOL)
 
     print("dump validate...")
-    pickle.dump(valid_xy_list, open(VALIDATE_PATH + "valid.pkl", "wb"), protocol = pickle.HIGHEST_PROTOCOL)
-    pickle.dump(valid_xy_list[0:2000], open(VALIDATE_PATH + "pj.pkl", "wb"), protocol = pickle.HIGHEST_PROTOCOL)
+    pickle.dump(valid_xy_list, open(VALIDATE_PATH + "dev.pkl", "wb"), protocol = pickle.HIGHEST_PROTOCOL)
     
     print("done.")
 
@@ -276,8 +275,8 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--data", default="lcsts", help="dataset path", )
     args = parser.parse_args()
 
-    data_type = "lcsts"
-    raw_path = "/home/pijili/data/summarization-data/SDS/lcsts_pj/info/"
+    data_type = "dingminwang"
+    raw_path = "/data/pjli/workspace/wangxi-s2s/data/dingminwang/"
 
     print(data_type, raw_path)
     run(data_type, raw_path)

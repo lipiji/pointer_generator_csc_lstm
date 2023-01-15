@@ -18,28 +18,28 @@ class Training(object):
     IS_UNICODE = True
     REMOVES_PUNCTION = False
     HAS_Y = True
-    BATCH_SIZE = 256
+    BATCH_SIZE = 100
 
 class Testing(object):
     IS_UNICODE = True
     HAS_Y = True
     BATCH_SIZE = 100
-    MIN_LEN_PREDICT = 10
-    MAX_LEN_PREDICT = 20
+    MIN_LEN_PREDICT = 1
+    MAX_LEN_PREDICT = 150
     MAX_BYTE_PREDICT = None
     PRINT_SIZE = 500
     REMOVES_PUNCTION = False
 
 class Configs():
-    cc = CommonConfigs("lcsts")
+    cc = CommonConfigs("dingminwang")
 
-    CELL = "gru" # gru or lstm
+    CELL = "lstm" # gru or lstm
     CUDA = True
     COPY = True
     COVERAGE = True
     BI_RNN = True
     BEAM_SEARCH = True
-    BEAM_SIZE = 10
+    BEAM_SIZE = 5
     AVG_NLL = True
     NORM_CLIP = 2
     if not AVG_NLL:
@@ -49,16 +49,16 @@ class Configs():
     DIM_X = 350
     DIM_Y = DIM_X
     HIDDEN_SIZE = 500
-    MIN_LEN_X = 5
-    MIN_LEN_Y = 5
-    MAX_LEN_X = 120
-    MAX_LEN_Y = 50
+    MIN_LEN_X = 1
+    MIN_LEN_Y = 1
+    MAX_LEN_X = 150
+    MAX_LEN_Y = 150
     MIN_NUM_X = 1
     MAX_NUM_X = 1
     MAX_NUM_Y = None
     NUM_Y = 1
 
-    UNI_LOW_FREQ_THRESHOLD = 5
+    UNI_LOW_FREQ_THRESHOLD = 1
 
     PG_DICT_SIZE = 100000
     

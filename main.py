@@ -1,5 +1,5 @@
 import os
-cudaid = 4
+cudaid = 6
 os.environ["CUDA_VISIBLE_DEVICES"] = str(cudaid)
 
 import sys
@@ -54,7 +54,7 @@ def init_modules():
     options = {}
 
     options["is_debugging"] = False
-    options["is_predicting"] = True
+    options["is_predicting"] = False
     options["model_selection"] = False # When options["is_predicting"] = True, true means use validation set for tuning, false is real testing.
 
     options["cuda"] = cfg.CUDA and torch.cuda.is_available()
@@ -107,7 +107,7 @@ def init_modules():
     consts["lr"] = cfg.LR
     consts["beam_size"] = cfg.BEAM_SIZE
 
-    consts["max_epoch"] = 150 if options["is_debugging"] else 50 
+    consts["max_epoch"] = 100 if options["is_debugging"] else 100
     consts["print_time"] = 3
     consts["save_epoch"] = 1
 
@@ -579,7 +579,7 @@ def run(existing_model_name = None):
                                                              batch.original_contents, batch.original_summarys, batch.x_ext, batch.y_ext, batch.x_ext_words)
                     
                     model.zero_grad()
-                    y_pred, cost, cost_c = model(torch.LongTensor(x).to(options["device"]), torch.LongTensor(len_x).to(options["device"]),\
+                    y_pred, cost, cost_c = model(torch.LongTensor(x).to(options["device"]), len_x,\
                                    torch.LongTensor(y).to(options["device"]),  torch.FloatTensor(x_mask).to(options["device"]), \
                                    torch.FloatTensor(y_mask).to(options["device"]), torch.LongTensor(x_ext).to(options["device"]),\
                                    torch.LongTensor(y_ext).to(options["device"]), \
@@ -624,7 +624,7 @@ def run(existing_model_name = None):
                         print("finished")
                 else:
                     print("optimization finished")
-                    break
+                    #break
 
             print("save final model... ",)
             save_model(cfg.cc.MODEL_PATH + model_name + ".final.gpu" + str(consts["idx_gpu"]) + ".epoch" + str(epoch // consts["save_epoch"] + existing_epoch) + "." + str(num_partial), model, optimizer)
